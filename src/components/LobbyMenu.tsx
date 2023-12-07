@@ -9,7 +9,9 @@ function LobbyMenu() {
 
   const fetchCodeBlocks = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/codeblocks");
+      const response = await axios.get(
+        "https://collaborative-editor-api-production.up.railway.app/api/codeblocks"
+      );
       setCodeBlocks(response.data);
     } catch (error) {
       console.error("Fetch error:", error);

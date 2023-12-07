@@ -22,7 +22,9 @@ type SocketProviderProps = {
 };
 
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
-  const socket = io("http://localhost:5000");
+  const socket = io(
+    "https://collaborative-editor-api-production.up.railway.app/"
+  );
 
   useEffect(() => {
     socket.on("connect", () => {
