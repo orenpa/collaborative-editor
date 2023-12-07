@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Editor.css";
 
 import { CodeBlock } from "../types/CodeBlockType";
 
-import MonacoEditor, { Monaco } from "@monaco-editor/react";
+import MonacoEditor, { Monaco, OnChange } from "@monaco-editor/react";
 import monokaiTheme from "monaco-themes/themes/Monokai.json";
 import chromeTheme from "monaco-themes/themes/Clouds Midnight.json";
 import gitHubLight from "monaco-themes/themes/GitHub Light.json";
@@ -12,6 +12,7 @@ import gitHubDark from "monaco-themes/themes/GitHub Dark.json";
 import dracula from "monaco-themes/themes/Dracula.json";
 
 import { useSocket } from "../contexts/SocketContext";
+import { editor } from "monaco-editor";
 
 interface EditorSettingsMenuProps {
   codeBlock: CodeBlock;
@@ -48,9 +49,9 @@ function Editor(editorProps: EditorSettingsMenuProps) {
     codeBlocks,
   } = editorProps;
 
+  const { id, code } = codeBlock;
   //states
-  const [nowEditCodeBlock, setNowEditCodeBlock] =
-    useState<CodeBlock>(codeBlock);
+  const [nowEditCode, setNowEditCode] = useState<string>(code);
 
   const socket = useSocket();
   const naviagte = useNavigate();
@@ -59,21 +60,26 @@ function Editor(editorProps: EditorSettingsMenuProps) {
   useEffect(() => {
     if (retry) {
       // When retrying, load the previously submitted code
-      setNowEditCodeBlock({ ...codeBlock, code: submittedCode });
+      setNowEditCode(submittedCode);
     } else {
       // When not retrying, ensure the current code block is up-to-date
-      setNowEditCodeBlock(codeBlock);
+      setNowEditCode(code);
     }
-  }, [retry, setRetry, submittedCode, codeBlock]);
+  }, [retry, setRetry, submittedCode, code]);
 
+  const updateCode = useCallback(
+    (data: { codeBlockId: string; newCode: string }) => {
+      if (data.codeBlockId == id) {
+        setNowEditCode(data.newCode);
+      }
+    },
+    [id]
+  );
   //listen to code changes on your codeblock
   useEffect(() => {
-    socket.on("code change", (data) => {
-      if (data.codeBlockId === nowEditCodeBlock.id) {
-        setNowEditCodeBlock((prev) => ({ ...prev, code: data.newCode }));
-      }
-    });
-  }, [socket, nowEditCodeBlock]);
+    console.log("REGISTERING LISTENER");
+    socket.on("code change", updateCode);
+  }, [updateCode]);
 
   //wait for the editor to mount and then it adds the themes
   const editorDidMount = (editor: any, monaco: Monaco): void => {
@@ -85,11 +91,19 @@ function Editor(editorProps: EditorSettingsMenuProps) {
     editor.focus();
   };
 
-  const handleCodeChange = (newCode: string | undefined) => {
+  const handleCodeChange = (
+    newCode: string | undefined,
+    ev: editor.IModelContentChangedEvent
+  ) => {
+    // Don't send a message if a change was not made by the user typing
+    if (ev.isFlush) {
+      return;
+    }
     if (newCode) {
-      setNowEditCodeBlock((prev) => ({ ...prev, code: newCode }));
+      setNowEditCode(newCode);
+      console.log("EMIT CODE CHANGE!");
       socket.emit("code change", {
-        codeBlockId: nowEditCodeBlock.id,
+        codeBlockId: id,
         newCode,
       });
     }
@@ -98,7 +112,7 @@ function Editor(editorProps: EditorSettingsMenuProps) {
   //handle buttons
   const handleClickSubmitCode = () => {
     setRetry(false);
-    onCodeSubmit(nowEditCodeBlock.code);
+    onCodeSubmit(nowEditCode);
   };
 
   const handleClickResetCode = () => {
@@ -106,7 +120,7 @@ function Editor(editorProps: EditorSettingsMenuProps) {
       (block) => block.id === codeBlock.id
     );
     if (originalCodeBlock) {
-      setNowEditCodeBlock(originalCodeBlock);
+      setNowEditCode(originalCodeBlock.code);
       socket.emit("code change", {
         codeBlockId: originalCodeBlock.id,
         newCode: originalCodeBlock.code,
@@ -130,7 +144,7 @@ function Editor(editorProps: EditorSettingsMenuProps) {
         width={1000}
         language={language}
         theme={theme}
-        value={nowEditCodeBlock.code}
+        value={nowEditCode}
         onChange={handleCodeChange}
         onMount={editorDidMount}
         options={{
