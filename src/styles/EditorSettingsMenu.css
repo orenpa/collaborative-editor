@@ -1,0 +1,51 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Aligns children to the left */
+}
+.role-tag-div {
+  width: 100%; /* Ensures full width for alignment */
+  margin-bottom: 30px;
+  margin-right: 0;
+  color: orange; /* Text color */
+  background-color: transparent;
+  border: 1px solid orange; /* Orange outline */
+  padding: 18px; /* Increased padding for bigger size */
+  border-radius: 6px;
+  width: 250px; /* Set a specific width */
+  font-size: 30px; /* Larger font size */
+  font-weight: 700;
+}
+.select-div {
+  width: 100%; /* Ensures full width for alignment */
+  margin-bottom: 30px;
+  margin-right: 0;
+}
+.checker {
+  width: 100%; /* Ensures full width for alignment */
+  margin-bottom: 10px; /* Spacing between elements */
+  margin-left: 0;
+}
+
+select {
+  color: orange; /* Text color */
+  background-color: transparent;
+  border: 1px solid orange; /* Orange outline */
+  padding: 18px; /* Increased padding for bigger size */
+  border-radius: 6px;
+  width: 250px; /* Set a specific width */
+  font-size: 18px; /* Larger font size */
+}
+/* Styling when clicked (focus) */
+select:focus {
+  border-color: rgb(201, 112, 3); /* Darker orange border */
+}
+option {
+  background-color: rgb(40, 47, 62); /* Dark background for options */
+  color: rgb(255, 166, 0); /* Light text color for better visibility */
+}
+/* Styling for options on hover */
+option:hover {
+  background-color: darkorange; /* Dark orange background on hover */
+  color: white; /* White text color on hover */
+}
