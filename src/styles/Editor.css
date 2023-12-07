@@ -1,13 +1,11 @@
-.codeblockcomponent-container {
+.editor-container {
   width: 100%;
 }
 
 .buttons-container {
-  /* Add your styles here */
   margin-top: 10px;
 }
 
-/* CSS */
 .button {
   align-items: center;
   appearance: none;

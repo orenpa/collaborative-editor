@@ -58,7 +58,7 @@ const CodeTester = (props: CodeTesterProps) => {
       const isTest1Correct = userFunction(2) === true; // Even number
       const isTest2Correct = userFunction(3) === false; // Odd number
 
-      // Check if both tests are correct
+      // Check if both tests correct
       return isTest1Correct && isTest2Correct;
     } catch (error) {
       console.error("Error testing user code for isEven:", error);
@@ -68,11 +68,11 @@ const CodeTester = (props: CodeTesterProps) => {
 
   function testZeroedMatrix(userCode: string) {
     try {
-      // Dynamically create the user's function
+      // Dynamically create the user function
       // eslint-disable-next-line no-new-func
       const userFunction = new Function("matrix", userCode);
 
-      // Test case: a simple 2x2 matrix
+      // Test case 2x2 matrix
       const testMatrix = [
         [1, 2],
         [3, 4],
@@ -102,6 +102,7 @@ const CodeTester = (props: CodeTesterProps) => {
     }
   }, []);
 
+  //Handling chunks of codes to enter the tester
   function extractCodeBetweenLines(
     code: string,
     startLine: number,
@@ -112,6 +113,7 @@ const CodeTester = (props: CodeTesterProps) => {
     return extractedLines.join("\n");
   }
 
+  //If there is a code to test, run a test on it, reurn the result
   useEffect(() => {
     if (codeToTest && taskId) {
       const extractedCode = extractCodeBetweenLines(codeToTest, 5, 15);
@@ -120,10 +122,12 @@ const CodeTester = (props: CodeTesterProps) => {
     }
   }, [codeToTest, taskId, runTest]);
 
+  //handler Back to Lobby
   const handleBackToLobby = () => {
     navigate("/");
   };
 
+  //alerts the reults upon seccess or fail
   const renderTestResult = () => {
     if (testResult === null) return null;
     if (testResult) {

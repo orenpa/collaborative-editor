@@ -11,6 +11,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<LobbyPage />} />
+          {/* a dynamic route */}
           <Route path="codeblock/:codeBlockId" element={<CodeBlockPage />} />
         </Routes>
       </div>

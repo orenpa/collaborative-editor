@@ -4,7 +4,7 @@ import "../styles/Editor.css";
 
 import { CodeBlock } from "../types/CodeBlockType";
 
-import MonacoEditor, { Monaco, OnChange } from "@monaco-editor/react";
+import MonacoEditor, { Monaco } from "@monaco-editor/react";
 import monokaiTheme from "monaco-themes/themes/Monokai.json";
 import chromeTheme from "monaco-themes/themes/Clouds Midnight.json";
 import gitHubLight from "monaco-themes/themes/GitHub Light.json";
@@ -49,37 +49,12 @@ function Editor(editorProps: EditorSettingsMenuProps) {
     codeBlocks,
   } = editorProps;
 
-  const { id, code } = codeBlock;
   //states
+  const { id, code } = codeBlock;
   const [nowEditCode, setNowEditCode] = useState<string>(code);
 
   const socket = useSocket();
   const naviagte = useNavigate();
-
-  //when blockId changes i fetch new codeblock
-  useEffect(() => {
-    if (retry) {
-      // When retrying, load the previously submitted code
-      setNowEditCode(submittedCode);
-    } else {
-      // When not retrying, ensure the current code block is up-to-date
-      setNowEditCode(code);
-    }
-  }, [retry, setRetry, submittedCode, code]);
-
-  const updateCode = useCallback(
-    (data: { codeBlockId: string; newCode: string }) => {
-      if (data.codeBlockId == id) {
-        setNowEditCode(data.newCode);
-      }
-    },
-    [id]
-  );
-  //listen to code changes on your codeblock
-  useEffect(() => {
-    console.log("REGISTERING LISTENER");
-    socket.on("code change", updateCode);
-  }, [updateCode]);
 
   //wait for the editor to mount and then it adds the themes
   const editorDidMount = (editor: any, monaco: Monaco): void => {
@@ -91,17 +66,43 @@ function Editor(editorProps: EditorSettingsMenuProps) {
     editor.focus();
   };
 
+  //If fail, try again with the submitted code, else passed
+  useEffect(() => {
+    if (retry) {
+      // When retrying task, load the previously submitted code
+      setNowEditCode(submittedCode);
+    } else {
+      // When not retrying, ensure the current code is up-to-date
+      setNowEditCode(code);
+    }
+  }, [retry, setRetry, submittedCode, code]);
+
+  //update code upon change
+  const updateCode = useCallback(
+    (data: { codeBlockId: string; newCode: string }) => {
+      if (data.codeBlockId === id) {
+        setNowEditCode(data.newCode);
+      }
+    },
+    [id]
+  );
+
+  //listen to code changes on your codeblock
+  useEffect(() => {
+    socket.on("code change", updateCode);
+  }, [updateCode, socket]);
+
   const handleCodeChange = (
     newCode: string | undefined,
     ev: editor.IModelContentChangedEvent
   ) => {
-    // Don't send a message if a change was not made by the user typing
+    // Don't send a message if a change was not made by the user who is typing
     if (ev.isFlush) {
       return;
     }
+    //notify other clients that code changed
     if (newCode) {
       setNowEditCode(newCode);
-      console.log("EMIT CODE CHANGE!");
       socket.emit("code change", {
         codeBlockId: id,
         newCode,
@@ -109,12 +110,13 @@ function Editor(editorProps: EditorSettingsMenuProps) {
     }
   };
 
-  //handle buttons
+  //handle submit code for test
   const handleClickSubmitCode = () => {
     setRetry(false);
     onCodeSubmit(nowEditCode);
   };
 
+  //resets the codeblock for everyone to its original code defined by the server
   const handleClickResetCode = () => {
     const originalCodeBlock = codeBlocks.find(
       (block) => block.id === codeBlock.id
@@ -128,17 +130,13 @@ function Editor(editorProps: EditorSettingsMenuProps) {
     }
   };
 
-  // const handleClickClearAll = () => {
-  //   setNowEditCodeBlock((prev) => ({ ...prev, code: "" }));
-  // };
-
+  //back to the lobby
   const handleBackToLobby = () => {
-    //back to the lobby
     naviagte("/");
   };
 
   return (
-    <div className="codeblockcomponent-container">
+    <div className="editor-container">
       <MonacoEditor
         height={600}
         width={1000}

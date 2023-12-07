@@ -13,6 +13,8 @@ import { useSocket } from "../contexts/SocketContext";
 
 function CodeBlockPage() {
   //states
+
+  //useParams extract the codeblock id from the dynamcic route from LobbyMenu clicked Link button
   const { codeBlockId } = useParams<{ codeBlockId: string }>();
   const [codeBlocks, setCodeBlocks] = useState<CodeBlock[]>([]);
   const [currentCodeBlock, setCurrentCodeBlock] = useState<CodeBlock>({
@@ -45,22 +47,23 @@ function CodeBlockPage() {
 
   //role assignment for client
   useEffect(() => {
-    // Listen for role assignment
+    // Listen for if there is a role assignment, assign if is.
     socket.emit("request role");
     if (socket) {
       socket.on("role assigned", (assignedRole) => {
         setRole(assignedRole);
       });
     }
+
+    //after roll assigned we remove the listener, we already have a role (student ot mentor)
     return () => {
       socket.off("role assigned");
     };
   }, [socket]);
 
-  //to set the currentBlock after we found it
-  //when data is arriving and state
-  //update the latest code
-
+  //when clicked from LobbyMenu, we get two things:
+  //the list of codeblocks and the codeblock id through a dynamic router
+  //we use this to set the current codeblock
   useEffect(() => {
     const foundBlock = codeBlocks.find(
       (block: CodeBlock) => block.id === codeBlockId
@@ -75,14 +78,17 @@ function CodeBlockPage() {
     setRetry(true);
   };
 
+  //code submmission after a try
   const onCodeSubmit = (code: string) => {
     setSubmittedCode(code);
     setRetry(false);
   };
   return (
     <div className="codeblock-page-container">
-      <header className="codeblock-header">{currentCodeBlock.title}</header>
-      <div className="editor-menu-container">
+      <header className="codeblock-page-header">
+        {currentCodeBlock.title}
+      </header>
+      <div className="settings-menu-container">
         <div className="settings-menu-wrapper">
           <EditorSettingsMenu
             role={role}
@@ -114,6 +120,7 @@ function CodeBlockPage() {
           />
         </div>
       </div>
+      {/* if there was a code submission by a client, test the code */}
       {submittedCode && !retry && (
         <CodeTester
           codeToTest={submittedCode}

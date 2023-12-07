@@ -1,5 +1,5 @@
-.overlay-container {
-  position: fixed; /* or 'absolute' if more suitable for your layout */
+.fail-container {
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -8,22 +8,22 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black background */
-  z-index: 1000; /* Ensure it's above other content */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
-.overlay-content {
+.fail-content {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center children horizontally */
-  justify-content: center; /* Center children vertically */
+  align-items: center;
+  justify-content: center;
 }
 
-.button-fail {
+.fail-button {
   margin-top: 5px;
   margin-left: 27px;
   align-items: center;
@@ -62,45 +62,45 @@
   z-index: 0;
 }
 
-.button-fail:hover {
+.fail-button:hover {
   background-color: #282936;
   /* background: #f6f9fe; */
   color: #ffffff;
   transition: all 0.3s cubic-bezier(0.65, 0, 0.076, 1);
 }
 
-.button-fail:active {
+.fail-button:active {
   box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%),
     0 8px 12px 6px rgb(60 64 67 / 15%);
   outline: none;
 }
 
-.button-fail:focus {
+.fail-button:focus {
   outline: none;
   border: 2px solid #ffffff;
 }
 
-.button-fail:not(:disabled) {
+.fail-button:not(:disabled) {
   box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0,
     rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
 }
 
-.button-fail:not(:disabled):hover {
+.fail-button:not(:disabled):hover {
   box-shadow: rgba(60, 64, 67, 0.3) 0 2px 3px 0,
     rgba(60, 64, 67, 0.15) 0 6px 10px 4px;
 }
 
-.button-fail:not(:disabled):focus {
+.fail-button:not(:disabled):focus {
   box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0,
     rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
 }
 
-.button-fail:not(:disabled):active {
+.fail-button:not(:disabled):active {
   box-shadow: rgba(60, 64, 67, 0.3) 0 4px 4px 0,
     rgba(60, 64, 67, 0.15) 0 8px 12px 6px;
 }
 
-.button-fail:disabled {
+.fail-button:disabled {
   box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0,
     rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
 }

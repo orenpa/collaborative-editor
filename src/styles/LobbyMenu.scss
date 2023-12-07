@@ -103,19 +103,11 @@ button {
   }
 }
 
-// @supports (display: grid) {
-//   body {
-//     display: grid;
-//     grid-template-columns: repeat(4, 1fr);
-//     grid-gap: 0.625rem;
-//     grid-template-areas: ". main main ." ". main main .";
-//   }
-
-.buttons-to-codeblocks-container {
+.lobby-menu-container {
   margin-top: 150px;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center buttons horizontally */
-  justify-content: center; /* Center buttons vertically (optional) */
-  gap: 30px; /* Space between buttons, adjust as needed */
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
 }

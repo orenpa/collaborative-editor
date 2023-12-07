@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
-import "../styles/ButtonToCodeBlock.scss";
+import "../styles/LobbyMenu.scss";
 import { Link } from "react-router-dom";
 import { CodeBlock } from "../types/CodeBlockType";
 import axios from "axios";
 
 function LobbyMenu() {
+  //states
   const [codeBlocks, setCodeBlocks] = useState<CodeBlock[]>([]);
 
+  //get list of codeblocks (tasks) from server
   const fetchCodeBlocks = useCallback(async () => {
     try {
       const response = await axios.get(
@@ -23,7 +25,7 @@ function LobbyMenu() {
   }, [fetchCodeBlocks]);
 
   return (
-    <div className="buttons-to-codeblocks-container">
+    <div className="lobby-menu-container">
       {codeBlocks.map((block) => (
         <div key={block.id} className="task-button">
           <Link to={`/codeblock/${block.id}`} state={{ codeBlocks }}>

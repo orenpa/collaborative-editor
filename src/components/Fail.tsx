@@ -8,11 +8,11 @@ interface FailProps {
 function Fail(props: FailProps) {
   const { onRetry } = props;
   return (
-    <div className="overlay-container">
-      <div className="overlay-content">
+    <div className="fail-container">
+      <div className="fail-content">
         <div style={{ fontSize: "2em", textAlign: "center" }}>😢</div>
         <div style={{ fontSize: "2em", textAlign: "center" }}>Fail</div>
-        <button className="button-fail" onClick={onRetry}>
+        <button className="fail-button" onClick={onRetry}>
           Try Again
         </button>
       </div>

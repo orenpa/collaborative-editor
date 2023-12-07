@@ -29,21 +29,60 @@ function EditorSettingsMenu(props: EditorSettingsMenuProps) {
     role,
   } = props;
 
+  //change the theme of the editor
   function handleThemeChange(
     event: React.ChangeEvent<HTMLSelectElement>
   ): void {
     setTheme(event.target.value);
   }
+
+  //change coding language
   function handleLanguageChange(
     event: React.ChangeEvent<HTMLSelectElement>
   ): void {
     setLanguage(event.target.value);
   }
+
+  //change font size
   function handleFontSizeChange(
     event: React.ChangeEvent<HTMLSelectElement>
   ): void {
     const newFontSize = Number(event.target.value);
     setFontSize(newFontSize);
+  }
+
+  //toggle on/off auto-complete
+  function handleAutoCompleteChange(
+    event: React.ChangeEvent,
+    checked: boolean
+  ): void {
+    checked
+      ? setEnableBasicAutoComplete(true)
+      : setEnableBasicAutoComplete(false);
+  }
+
+  //toggle on/off the gutter of the editor
+  function handleShowGutterChange(
+    event: React.ChangeEvent,
+    checked: boolean
+  ): void {
+    checked ? setShowGutter(true) : setShowGutter(false);
+  }
+
+  //toggle on/off if you want curr row to be highlighted
+  function handleHighlighActiveLineChange(
+    event: React.ChangeEvent,
+    checked: boolean
+  ): void {
+    checked ? setHighLightActiveLines(true) : setHighLightActiveLines(false);
+  }
+
+  //toggle on/off line number on the side
+  function handleShowLineNumbersChange(
+    event: React.ChangeEvent,
+    checked: boolean
+  ): void {
+    checked ? setShowLineNumbers(true) : setShowLineNumbers(false);
   }
 
   //checkboxes and selects
@@ -59,38 +98,8 @@ function EditorSettingsMenu(props: EditorSettingsMenuProps) {
     justifyContent: "flex-start",
     marginLeft: 0,
     width: "100%",
-    color: orange[600], // Set the text color to orange
+    color: orange[600],
   };
-
-  function handleAutoCompleteChange(
-    event: React.ChangeEvent,
-    checked: boolean
-  ): void {
-    checked
-      ? setEnableBasicAutoComplete(true)
-      : setEnableBasicAutoComplete(false);
-  }
-
-  function handleShowGutterChange(
-    event: React.ChangeEvent,
-    checked: boolean
-  ): void {
-    checked ? setShowGutter(true) : setShowGutter(false);
-  }
-
-  function handleHighlighActiveLineChange(
-    event: React.ChangeEvent,
-    checked: boolean
-  ): void {
-    checked ? setHighLightActiveLines(true) : setHighLightActiveLines(false);
-  }
-
-  function handleShowLineNumbersChange(
-    event: React.ChangeEvent,
-    checked: boolean
-  ): void {
-    checked ? setShowLineNumbers(true) : setShowLineNumbers(false);
-  }
 
   return (
     <div className="menu">

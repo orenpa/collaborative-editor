@@ -6,13 +6,13 @@ interface SuccessProps {
 function Success(props: SuccessProps) {
   const { onBackToLobby } = props;
   return (
-    <div className="overlay-container">
-      <div className="overlay-content">
+    <div className="success-container">
+      <div className="success-content">
         <div style={{ fontSize: "2em", textAlign: "center" }}>😊</div>
         <div style={{ fontSize: "2em", textAlign: "center" }}>Good Job</div>
         <div style={{ fontSize: "2em", textAlign: "center" }}>Try Another</div>
         <div>
-          <button className="button-succes" onClick={onBackToLobby}>
+          <button className="success-button" onClick={onBackToLobby}>
             Back to Lobby
           </button>
         </div>
