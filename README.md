@@ -37,7 +37,7 @@ Ready to jump into collaborative coding fun? Here's how to get started:
 4. **Start Coding**: Collaborate, chat, and enjoy solving puzzles together!
 5. **Mentor-Student**: Can have a mentor to supervise your coding skills!
 
-**note that we assume that the first user to enter is a Mentor - he won't be able to edit the code, only the second user and so on will be able!**
+**Note that we assume that the first user to enter is a Mentor - he won't be able to edit the code, only the second user and so on will be able!**
 
 ## 💬 User Testimonials
 > "I've never had so much fun coding! The puzzles are challenging, and solving them with friends is a blast." - Herzi H.
