@@ -31,8 +31,8 @@ Check out these short videos to see how much fun coding can be:
 
 ## 🚀 Quick Start Guide
 Ready to jump into collaborative coding fun? Here's how to get started:
-1. **Enter In**: [here](https://collaborative-editor-z1mo.onrender.com).
-2. **Invite Friends**: Send invites to your friends directly from the editor.
+1. **Enter In**: [Here](https://collaborative-editor-z1mo.onrender.com).
+2. **Invite Friends**: Because it's way more fun!
 3. **Choose a Puzzle**: Select from a range of puzzles based on your interest and skill level.
 4. **Start Coding**: Collaborate, chat, and enjoy solving puzzles together!
 5. **Mentor-Student**: Can have a mentor to supervise your coding skills!
